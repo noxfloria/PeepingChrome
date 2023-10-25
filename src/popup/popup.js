@@ -36,9 +36,12 @@ document.addEventListener('DOMContentLoaded', function() {
 document.addEventListener('DOMContentLoaded', function() {
   var button = document.getElementById('clearData');
   button.addEventListener('click', function() {
-    let temp;
+    let temp, temp2;
     chrome.storage.local.get(['exept_url'], function(result) {
       temp = result.exept_url || [];
+    });
+    chrome.storage.local.get(['post_exept_url'], function(result) {
+      temp2 = result.post_exept_url || [];
     });
     chrome.storage.local.clear();
     chrome.storage.local.get(['exept_url'], function (result) {
@@ -47,6 +50,13 @@ document.addEventListener('DOMContentLoaded', function() {
         exeptUrl.push(item);
       });
       chrome.storage.local.set({exept_url: exeptUrl});
+    });
+    chrome.storage.local.get(['post_exept_url'], function (result) {
+      const exeptUrl = result.post_exept_url || [];
+      temp2.forEach(item => {
+        exeptUrl.push(item);
+      });
+      chrome.storage.local.set({post_exept_url: exeptUrl});
     });
     alert('All Logs have been removed');
   });

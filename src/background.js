@@ -43,6 +43,35 @@ function checkExeptUrl(current_url, callback) {
   }
 }
 
+function checkExeptPostUrl(current_url, callback) {
+  const defExeptUrl = [
+    "adservice.google.com",
+  ];
+  if (current_url.startsWith("chrome-extension")) {
+    callback(false);
+  } else if (current_url.startsWith("devtools")) {
+    callback(false);
+  } else {
+    for (let i = 0; i < defExeptUrl.length; i++) {
+      if (current_url.includes(defExeptUrl[i])) {
+        callback(false);
+        return;
+      }
+    }
+
+    chrome.storage.local.get(['post_exept_url'], function(result) {
+      const exeptUrl = result.post_exept_url || [];
+      for (let i = 0; i < exeptUrl.length; i++) {
+        if (current_url.includes(exeptUrl[i])) {
+          callback(false);
+          return;
+        }
+      }
+      callback(true);
+    });
+  }
+}
+
 /**ウィンドウIDを取得する */
 function getCurrentWindow(){
   let windowId;
@@ -96,33 +125,37 @@ const setHTTPLogger = (details) => {
     if (details.frameType !== "sub_frame" && details.method === "POST" && details.requestBody.error !== "Unknown error.") {
       checkExeptUrl(details.url, function(isValid) {
         if(isValid){
-          // ローカルストレージに配列を追記する
-          chrome.storage.local.get(['log'], function(result){
-            let logs = result.log || [];
-      
-            if (details.requestBody && details.requestBody.raw && details.requestBody.raw[0] && details.requestBody.raw[0].bytes) {
-              details.requestBody = arrayBufferToBase64(details.requestBody.raw[0].bytes);
-            } else {
-              details.requestBody = str_checkUndefined(details.requestBody);
+          checkExeptPostUrl(details.url, function(isValid) {
+            if(isValid){
+              // ローカルストレージに配列を追記する
+              chrome.storage.local.get(['log'], function(result){
+                let logs = result.log || [];
+          
+                if (details.requestBody && details.requestBody.raw && details.requestBody.raw[0] && details.requestBody.raw[0].bytes) {
+                  details.requestBody = arrayBufferToBase64(details.requestBody.raw[0].bytes);
+                } else {
+                  details.requestBody = str_checkUndefined(details.requestBody);
+                }
+          
+                logs.push({
+                  operation: "HTTP POST Request",
+                  details: {
+                    documentId: str_checkUndefined(details.documentId),
+                    frameId: details.frameId,
+                    frameType: str_checkUndefined(details.frameType),
+                    method: details.method,
+                    url: details.url,
+                    requestBody: details.requestBody
+                  },
+                  time: details.timeStamp,
+                  location: {
+                    windowId: getCurrentWindow,
+                    tabId: details.tabId,
+                  }
+                });
+                chrome.storage.local.set({"log": logs})
+              });
             }
-      
-            logs.push({
-              operation: "HTTP POST Request",
-              details: {
-                documentId: str_checkUndefined(details.documentId),
-                frameId: details.frameId,
-                frameType: str_checkUndefined(details.frameType),
-                method: details.method,
-                url: details.url,
-                requestBody: details.requestBody
-              },
-              time: details.timeStamp,
-              location: {
-                windowId: getCurrentWindow,
-                tabId: details.tabId,
-              }
-            });
-            chrome.storage.local.set({"log": logs})
           });
         }
       });

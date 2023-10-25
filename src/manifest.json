@@ -1,8 +1,8 @@
 {
   "manifest_version": 3,
-  "name": "Chrome Logger Test ver",
+  "name": "Peeping Chrome",
   "version": "1.0.0",
-  "description": "Test",
+  "description": "Logging user's operation",
   "background": {
     "service_worker": "background.js",
     "type": "module",

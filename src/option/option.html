@@ -6,7 +6,8 @@
 </head>
 <body>
   <div class="container mt-5">
-    <h2>Manage exepted URL</h2>
+    <h2 class="text-center">Manage exepted URL</h2>
+    <h3>General</h3>
     <h5 class="px-2">Except:</h5>
     <ul id="urlList" class="list-group mx-5">
       <!-- This list will be populated dynamically -->
@@ -22,6 +23,25 @@
         <label for="removeUrl">Remove URL:</label>
         <select id="removeUrl" class="form-select my-2"></select>
         <button id="removeSelectedUrl" class="btn btn-primary">Remove</button>
+      </p>
+    </fieldset>
+
+    <h3 class="mt-5">HTTP Request (Post method)</h3>
+    <h5 class="px-2">Except:</h5>
+    <ul id="postUrlList" class="list-group mx-5">
+      <!-- This list will be populated dynamically -->
+    </ul>
+    <fieldset class="mt-5">
+      <p>
+        <label for="newPostUrl">Add a new URL:</label>
+        <input type="text" id="newPostUrl" class="form-control my-2">
+        <button id="addPostUrl" class="btn btn-primary">Add</button>
+      </p>
+
+      <p>
+        <label for="removePostUrl">Remove URL:</label>
+        <select id="removePostUrl" class="form-select my-2"></select>
+        <button id="removeSelectedPostUrl" class="btn btn-primary">Remove</button>
       </p>
     </fieldset>
   </div>
