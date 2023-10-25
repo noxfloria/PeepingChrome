@@ -1,0 +1,36 @@
+{
+  "manifest_version": 3,
+  "name": "Chrome Logger Test ver",
+  "version": "1.0.0",
+  "description": "Test",
+  "background": {
+    "service_worker": "background.js",
+    "type": "module",
+    "capabilities": [
+      "windows"
+    ]
+  },
+  "options_page": "option/option.html",
+  "permissions": [
+    "bookmarks",
+    "storage",
+    "activeTab",
+    "scripting",
+    "webNavigation",
+    "webRequest",
+    "downloads",
+    "printerProvider",
+    "windows",
+    "tabs",
+    "tabGroups",
+    "management",
+    "contextMenus",
+    "unlimitedStorage"
+  ],
+  "host_permissions": [
+    "<all_urls>"
+  ],
+  "action": {
+    "default_popup": "popup/popup.html"
+  }
+}
