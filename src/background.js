@@ -17,6 +17,7 @@ function getTime(timestamp){
 function checkExeptUrl(current_url, callback) {
   const defExeptUrl = [
     "adservice.google.com",
+    "file://",
   ];
   if (current_url.startsWith("chrome-extension")) {
     callback(false);
@@ -46,6 +47,7 @@ function checkExeptUrl(current_url, callback) {
 function checkExeptPostUrl(current_url, callback) {
   const defExeptUrl = [
     "adservice.google.com",
+    "file://",
   ];
   if (current_url.startsWith("chrome-extension")) {
     callback(false);
@@ -644,10 +646,10 @@ function removeExtensionLogger(){
 }
 
 
-addBookmarkLogger();
-addDownloadLogger();
+//addBookmarkLogger();
+//addDownloadLogger();
 addNavigationLogger();
-addTabLogger();
-addWindowLogger();
-addExtensionLogger();
-addHTTPRequestLogger();
+//addTabLogger();
+//addWindowLogger();
+//addExtensionLogger();
+//addHTTPRequestLogger();
