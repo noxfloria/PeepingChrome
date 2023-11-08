@@ -18,6 +18,8 @@ function checkExeptUrl(current_url, callback) {
   const defExeptUrl = [
     "adservice.google.com",
     "file://",
+    "about:blank",
+    "chrome://extensions/",
   ];
   if (current_url.startsWith("chrome-extension")) {
     callback(false);
@@ -48,6 +50,8 @@ function checkExeptPostUrl(current_url, callback) {
   const defExeptUrl = [
     "adservice.google.com",
     "file://",
+    "about:blank",
+    "chrome://extensions/",
   ];
   if (current_url.startsWith("chrome-extension")) {
     callback(false);
